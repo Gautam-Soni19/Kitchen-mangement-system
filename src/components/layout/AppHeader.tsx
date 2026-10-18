@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Layout,
   Button,
@@ -10,24 +11,20 @@ import {
   Space,
   Tag,
   Tooltip,
-  Modal,
   notification,
 } from 'antd';
 import type { MenuProps } from 'antd';
 import {
   BellOutlined,
   ThunderboltOutlined,
-  UserOutlined,
-  CheckCircleOutlined,
   ClockCircleOutlined,
-  MailOutlined,
   DatabaseOutlined,
   FireOutlined,
-  RocketOutlined,
 } from '@ant-design/icons';
 import { supabaseService } from '@/services/supabaseMock';
 import { smtpService } from '@/services/smtpService';
 import { SystemAlert } from '@/types';
+import { signOut } from '@/services/supabaseAuth';
 
 const { Header } = Layout;
 
@@ -36,7 +33,8 @@ interface AppHeaderProps {
   onOpenSimulator?: () => void;
 }
 
-export default function AppHeader({ onNavigateToAlerts, onOpenSimulator }: AppHeaderProps) {
+export default function AppHeader({ onNavigateToAlerts }: AppHeaderProps) {
+  const router = useRouter();
   const [alerts, setAlerts] = useState<SystemAlert[]>([]);
   const [lowStockCount, setLowStockCount] = useState(0);
   const [currentTime, setCurrentTime] = useState<string>('');
@@ -195,6 +193,8 @@ export default function AppHeader({ onNavigateToAlerts, onOpenSimulator }: AppHe
       icon: <ThunderboltOutlined style={{ color: '#0284c7' }} />,
       label: 'InfluxDB Time-Series: Live 100Hz',
     },
+    { type: 'divider' },
+    { key: 'sign-out', label: 'Sign out', onClick: async () => { await signOut(); router.replace('/admin/login'); } },
   ];
 
   return (
@@ -226,7 +226,7 @@ export default function AppHeader({ onNavigateToAlerts, onOpenSimulator }: AppHe
                 letterSpacing: '1px',
               }}
             >
-              L'ÉTOILE RESTAURANT & GRAND HOTEL
+              L&apos;ÉTOILE RESTAURANT & GRAND HOTEL
             </span>
             <Tag color="#c59b27" style={{ fontWeight: 600, border: 'none', color: '#fff' }}>
               3-MICHELIN ★★★

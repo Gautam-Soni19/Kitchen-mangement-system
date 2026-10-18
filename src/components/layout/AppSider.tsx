@@ -9,10 +9,9 @@ import {
   LineChartOutlined,
   BellOutlined,
   CrownOutlined,
-  CheckCircleOutlined,
   ReloadOutlined,
-  ThunderboltOutlined,
   SafetyCertificateOutlined,
+  ShoppingOutlined,
 } from '@ant-design/icons';
 import { supabaseService } from '@/services/supabaseMock';
 import { smtpService } from '@/services/smtpService';
@@ -51,6 +50,7 @@ export default function AppSider({
   }, []);
 
   const menuItems: MenuProps['items'] = [
+    { key: 'orders', icon: <ShoppingOutlined style={{ fontSize: 16 }} />, label: 'Customer Orders' },
     {
       key: 'dashboard',
       icon: <DashboardOutlined style={{ fontSize: 16 }} />,
