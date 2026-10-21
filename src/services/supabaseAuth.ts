@@ -15,7 +15,7 @@ export type CustomerOrder = {
 };
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, '');
-const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const anonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 const SESSION_KEY = 'etoile_supabase_session_v1';
 
 export const isSupabaseConfigured = Boolean(url && anonKey);
@@ -36,7 +36,7 @@ function saveSession(session: Session | null) {
 }
 
 async function request<T>(path: string, init: RequestInit = {}, token?: string): Promise<T> {
-  if (!url || !anonKey) throw new Error('Supabase is not configured. Add the project URL and anon key to .env.local.');
+  if (!url || !anonKey) throw new Error('Supabase is not configured. Check the project URL and publishable key in .env.local.');
   const send = (accessToken?: string) => fetch(`${url}${path}`, {
     ...init,
     headers: {
